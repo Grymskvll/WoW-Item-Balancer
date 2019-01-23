@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<link href="https://fonts.googleapis.com/css?family=Cutive+Mono|Roboto" rel="stylesheet"> 
+	<title>Item Balancer - README</title>
+	<link rel="shortcut icon" type="image/png" href="Images/Inv_misc_book_02.png"/>
+	<style>
+		html {
+			box-sizing: border-box;
+			font-family: 'Roboto', sans-serif;
+			/* font-size: 14px; */
+		}
+		*, *:before, *:after {
+			box-sizing: inherit;
+		}
+
+		body {
+			margin: 0px;
+		}
+
+		h4 {
+			margin-bottom: 5px;
+		}
+
+		ul {
+			margin: 5px;
+		}
+
+		#outer {
+			margin: 8px;
+		}
+
+		.ext-credits {
+			height: 14px;
+		}
+
+		.footer {
+			background-color: #060606;
+			color: #f5eee4;
+			font-family: 'Cutive Mono', monospace;
+			margin-top: 20px;
+			padding: 20px;
+		}
+		.footer > p {
+			font-size: 13px;
+		}
+		.center-text {
+			text-align: center;
+		}
+		.yt-embed {
+			border: 3px solid red;
+		}
+		.hug-right {
+			margin-left: auto;
+			width: -webkit-fit-content;
+			width: -moz-fit-content;
+			width: fit-content;
+		}
+		.colimg {
+			height: 32px;
+			width: auto;
+			margin-right: 5px;
+		}
+		.button-standalone	{
+			cursor: pointer;
+			padding-top: 2px;
+			padding-bottom: 2px;
+			font-size: 15px;
+			display: inline-flex;
+			align-items: center;
+		}
+		.tabimg	{
+			height: 18px;
+			width: auto;
+			margin-left: 5px;
+		}
+		.nodec	{
+			text-decoration: none;
+		}
+
+
+		.bigboy {
+			margin-left: auto;
+			margin-right: auto;
+			min-width: 640px;
+			width: 60%;
+		}
+		.fullwidth {
+			width: 100%;
+		}
+		.ribbon {
+			/* background-color: #ffe2e2; */
+			/* margin-top: 1em; */
+			/* margin-bottom: 1em; */
+		}
+		.center {
+			margin: auto;
+			display: block;
+		}
+		
+
+		span.split {
+			background-color: rgb(255, 134, 134);
+		}
+
+		span.function {
+			background-color: rgb(134, 255, 134);
+		}
+
+		span.manual {
+			background-color: rgb(134, 134, 255);
+		}
+
+		span.extra {
+			background-color: rgb(231, 134, 255);
+		}
+
+		.warning {
+			background-color: rgb(255, 255, 225);
+			border-radius: 0px 0px 25px 25px;
+			padding: 5px 20px 5px 20px;
+			text-align: center;
+			/* width: 60%; */
+			min-width: 540px;
+			width: 70%;
+			margin: auto;
+			border: 4px solid yellow;
+		}
+		.warning-header {
+			background: yellow;
+			font-weight: bold;
+			border-radius: 25px 25px 0 0;
+			padding: 5px 20px 5px 20px;
+			text-align: center;
+			/* width: 60%; */
+			min-width: 540px;
+			width: 70%;
+			margin: auto;
+		}
+
+		table, pre {
+			margin-left: 40px;
+		}
+		.text-right {
+			text-align: right;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="outer">
+		<div class="hug-right">
+			<a class="nodec" href="ilvl.html" target="_blank">
+				<button class="button-standalone" type="button">
+					<img class="colimg" src="Images/Inv_misc_enggizmos_swissarmy.png">
+					Tool
+					<img class="tabimg" src="Images/icons8-external-link.svg">
+			</button></a>
+			
+			<a class="nodec" href="https://github.com/Grymskvll/WoW-Item-Balancer" target="_blank">
+				<button class="button-standalone" type="button">
+					<img class="colimg" src="Images/GitHub-Mark-120px-plus.png">
+					GitHub project page
+					<img class="tabimg" src="Images/icons8-external-link.svg">
+			</button></a>
+		</div>
+
+		<hr>
+		<div class="bigboy">
+				
+			<div class="fullwidth ribbon">
+				<iframe class="center yt-embed" rel="0" width="640" height="360" src="https://www.youtube-nocookie.com/embed/HTNouDbyk_Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+			
+			<h2>Intro</h2>
+			Given an ilvl (and other info), this program will calculate appropriate stat values. The goal is to create items that
+			are balanced for their itemlevel.<br>
+
+			<br>
+			There are 3 budget modes available for each stat:<br>
+			<table>
+				<tr>
+					<td><b><span class="split">Split</span></b> (default)</td>
+					<td>Takes remaining budget and splits it evenly among all stats with this mode.</td>
+				</tr>
+				<tr>
+					<td><b><span class="function">Function</span></b></td>
+					<td>Select a function that calculates stat value based on ilvl. New functions can be defined.</td>
+				</tr>
+				<tr>
+					<td><b><span class="manual">Manual</span></b></td>
+					<td>Directly set the stat value.</td>
+				</tr>
+			</table>
+			<br>
+			The user may also directly add or subtract points using the <b><span class="extra">Extra</span></b> field.<br>
+			<br>
+			<div class="warning-header">Note</div>
+			<div class="warning">
+				With default calculation, the budget consumed by a stat increases exponentially.<br>
+			</div>
+			<br>
+			<div class="warning-header">Note</div>
+			<div class="warning">
+				The base value for <b><span class="split">Split</span></b> stats will fluctuate as the remaining budget changes.
+			</div>
+
+			<!-- <div class="warning-header">Note</div>
+			<div class="warning">
+				Currently, the program will not properly balance the budget if there is a stat set to <span class="split">Split</span>
+				with the <span class="extra">Extra</span> field also used. This leads to under- or over-shooting the goal ilvl.<br>
+				To work around this, either:
+				<ul>
+					<li>manually adjust another <span class="split">Split</span> stat through the <span class="extra">Extra</span> field
+						to balance it</li>
+					<li>or avoid setting the <span class="extra">Extra</span> field for stats set to <span class="split">Split</span>
+						mode</li>
+				</ul>
+				Trying to adjust a <span class="manual">Manual</span> or <span class="function">Function</span> stat through the <span
+				class="extra">Extra</span> field to adjust the discrepency wont work, because the budget available for <span class="split">Split</span>
+				stats is defined after <span class="manual">Manual</span> and <span class="function">Function</span> stats (and their
+				<span class="extra">Extra</span> fields) have taken their budget out of the available pool.
+			</div> -->
+			<hr>
+
+			<h2>About values and functions</h2>
+			Created using knowledge from this Elitist Jerks thread (archived page, may take a minute to load):<br>
+			<a href="https://web.archive.org/web/20140210070212/http://forums.elitistjerks.com/index.php?showtopic=44275" target="_blank">https://web.archive.org/web/20140210070212/http://forums.elitistjerks.com/index.php?showtopic=44275</a><br>
+			<br>
+
+			
+			<div class="warning-header">Note</div>
+			<div class="warning">
+				While the EJ thread was an invaluable starting point, some changes were made and new values were added. Refer to the config file(s) in the <i>Expansions</i> directory for the values and functions used by this program.
+			</div>
+
+			<br>
+			
+			<div class="warning-header">Note</div>
+			<div class="warning">
+				The functions and values contain significant errors, but the program gets decent results for the expected ilvl range.
+			</div>
+		<!-- 
+			<h4>Summary of EJ thread:</h4>
+			<table class="EJtable">
+				<tr>
+					<th>Stat</th>
+					<th>Modifier</th>
+				</tr>
+				<tr>
+					<td>Strength</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>Agility</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>Stamina</td>
+					<td>2/3</td>
+				</tr>
+				<tr>
+					<td>Intellect</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>Spirit</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>Ratings</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>Attack Power</td>
+					<td>1/2</td>
+				</tr>
+				<tr>
+					<td>Spell Power</td>
+					<td>6/7</td>
+				</tr>
+				<tr>
+					<td>Mana per 5</td>
+					<td>5/2</td>
+				</tr>
+				<tr>
+					<td>Bonus armor</td>
+					<td>1/14</td>
+				</tr>
+				<tr>
+					<td>Block value</td>
+					<td>13/40</td>
+				</tr>
+			</table>
+
+			<table class="EJtable">
+				<tr>
+					<th>Slot</th>
+					<th>Modifier</th>
+				</tr>
+				<tr>
+					<td>Chest</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>Head</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>Legs</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>Shoulder</td>
+					<td>3/4</td>
+				</tr>
+				<tr>
+					<td>Hands</td>
+					<td>3/4</td>
+				</tr>
+				<tr>
+					<td>Waist</td>
+					<td>3/4</td>
+				</tr>
+				<tr>
+					<td>Feet</td>
+					<td>3/4</td>
+				</tr>
+				<tr>
+					<td>Wrist</td>
+					<td>9/16</td>
+				</tr>
+				<tr>
+					<td>Back</td>
+					<td>9/16</td>
+				</tr>
+				<tr>
+					<td>Neck</td>
+					<td>9/16</td>
+				</tr>
+				<tr>
+					<td>Finger</td>
+					<td>9/16</td>
+				</tr>
+				<tr>
+					<td>Off-Hand Frill</td>
+					<td>9/16</td>
+				</tr>
+				<tr>
+					<td>Shield</td>
+					<td>9/16</td>
+				</tr>
+				<tr>
+					<td>Trinket</td>
+					<td>17/25 (estimated)</td>
+				</tr>
+				<tr>
+					<td>Ranged</td>
+					<td>5/16</td>
+				</tr>
+				<tr>
+					<td>One-Hand Weapon</td>
+					<td>27/64</td>
+				</tr>
+				<tr>
+					<td>Two-Hand Weapon</td>
+					<td>1</td>
+				</tr>
+			</table>
+
+			<code>
+				<pre>
+			statBudget 	= (stat * statMod) ^ (log(2) / log(1.5))	// aka BudgetFromStat
+			itemBudget 	= (sum of all statBudgets)
+			itemValue 	= itemBudget ^ (1 / (log(2) / log(1/5)))
+			itemSlotValue 	= itemValue / slotModifier
+
+			WotLK ilvl >= 100:
+			Uncommon	itemLevel = 101.18 * log(itemSlotValue) - 292.23
+			Rare 		itemLevel = 97.632 * log(itemSlotValue) - 287.14
+			Epic 		itemLevel = 106.29 * log(itemSlotValue) - 344.36
+
+
+			WotLK epic weapon DPS:
+			One-Hand ilvl 100+:
+				dps = 0.5922 * itemSlotValue + 43.388
+
+			Two-Hand & Thrown ilvl 100+:
+				dps = 0.7714 * itemSlotValue + 56.129
+
+			Bows & Guns & Crossbows	ilvl 100-219:
+				dps = 0.5423 * itemSlotValue + 38.32
+			
+			Wand ilvl 100+:
+				dps = 1.0657 * itemSlotValue + 82.251
+				</pre>
+			</code> -->
+
+			<hr>
+
+			<h2>DPS calculation</h2>
+			Goal DPS is calculated based on ilvl (and other info).<br>
+			Average damage is calculated based on goal DPS and speed.<br>
+			<br>
+			Damage range specifies how far the damage per hit will stray from average.<br>
+			At 0%, damage per hit is always the same.<br>
+			At 100%, damage per hit is between 0 and 2*average.<br>
+			<br>
+			Resulting damage min and max values are rounded to integers.<br>
+			Based on min and max damage and weapon speed, the final dps is re-calculated.<br>
+			<br>
+			<div class="warning-header">Note</div>
+			<div class="warning">
+				Because min and max damage gets rounded, the re-calculated DPS will fluctuate with speed and damage range. This is Blizzlike.			
+			</div>
+
+			<br>
+			<h4>Caster weapons</h4>
+			Caster weapons (specifically two-hand and main-hand weapons) sacrifice a part of their DPS in return for spell power.<br>
+			In light of the DPS sacrifice feature, DPS should ideally be derived from the weapon's budget rather than from the ilvl. Unfortunately, attempts to reconcile this idea with the generic stat budget calculation have failed.<br>
+			As a result, in order to create a caster two-hand or main-hand weapon, please follow these awkward steps:
+			<ol>
+				<li>Select the caster weapon dps function</li>
+				<li>Add Spell Power, set it to the weapon SP function</li>
+				<li>Set the Budget Mod to 0 (manual mode) to make it "free"</li>
+			</ol>
+
+			<hr>
+
+			<h2>Customization</h2>
+			This tool was designed to facilitate customization.<br>
+			<br>
+			<h4>Adding a new Expansion config file</h4>
+			<ol>
+				<li>copy and rename an existing one<br>
+					<code>/Expansions/name.js</code></li>
+				<li>add a line in <i>Expansions_List.js</i> to load it<br>
+					<code>"Expansions/name.js",</code></li>
+				<li>change the file as desired (any key that's in quotes and any value that isn't a dict may be edited)</li>
+				<li>reload the tool in your browser (CTRL + F5) for the change to appear</li>
+			</ol>
+			<h4>Required functions</h4>
+			An Expansion config file needs the following three pairs of inverse functions:
+			<ul>
+				<li>StatModded</li>
+				<li>StatUnmodded</li>
+				<br>
+				<li>BudgetFromStat</li>
+				<li>StatFromBudget</li>
+				<br>
+				<li>ItemLevelFromBudget (combines ElitistJerks itemValue, itemSlotValue, itemLevel functions)</li>
+				<li>BudgetFromItemLevel</li>
+			</ul>
+			<div class="warning-header">Note</div>
+			<div class="warning">
+				To invert a function, go through the function with reversed order of operations and perform opposite operations. Don't forget that the exponent operator is ** and not ^
+			</div>
+			
+			<br>
+			<h4>Regarding values</h4>
+			The following values are optional, but without them the relevant calculation will be impossible (e.g. the program wont be able to calculate armor for a dagger because it lacks a <i>SlotArmorMod</i>):
+			<table>
+				<tr>
+					<td class="text-right">...Slots[slot].<br><br><br></td>
+					<td>SlotDPSMod<br>
+						SlotArmorMod<br>
+						SlotBlockValueMod</td>
+				</tr>
+				<tr>
+					<td class="text-right">...Types[type].<br><br><br></td>
+					<td>TypeDPSMod<br>
+						TypeArmorMod<br>
+						TypeBlockValueMod</td>
+				</tr>
+			</table>
+			<div class="warning-header">Note</div>
+			<div class="warning">
+				When setting DPS/Armor/BlockValue mods, in many cases you can leave either the <i>slot</i> or <i>type</i> mod (or both) at 1. It's a bit of a puzzle.
+			</div>
+			<br>
+			All <i>mod</i> values can be either a number or a function in the form of:<br>
+<pre>somemod : function(item) {
+	let mod = // process parameters as desired
+	return mod
+}</pre>
+			<br>
+			For calculating DPS, Armor and BlockValue, different functions can be condensed into a universal function, but I chose to keep them separate for clarity.<br>
+			For example, the stock <i>WotLK</i> config file contains two <i>DPSFunctions</i>: one for Epic ilvl 226+ bows, crossbows and guns, and the other for all remaining weapons. However, they could be combined into one function that checks what kind of weapon it is before choosing a function.<br>
+			<br>
+			<div class="warning-header">Note</div>
+			<div class="warning">
+				The data contained in a config file must be wrapped in curly braces for the sake of scoping.
+			</div>
+			<hr>
+		
+		
+			<h2>Credits</h2>
+			Big thanks to everyone who (directly or indirectly) contributed to:<br>			
+			<ul>
+				<li><a href="https://web.archive.org/web/20140210070212/http://forums.elitistjerks.com/index.php?showtopic=44275" target="_blank">
+					Elitist Jerks - Item Level Mechanics (archived link)<img class="ext-credits" src="Images/icons8-external-link.svg">
+					</a>
+				</li>
+				<li><a href="http://wowwiki.wikia.com/wiki/Item_level" target="_blank">
+					WoWWiki - Item level<img class="ext-credits" src="Images/icons8-external-link.svg">
+					</a>
+				</li>
+				<li><a href="https://icons8.com/icon/16139/external-link" target="_blank">
+					Icons8 - External Link icon<img class="ext-credits" src="Images/icons8-external-link.svg">
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="fullwidth footer">
+		<p class="center-text">made with equal parts confusion and worry</p>
+		<div class="center-text">°　　∠　　°</div>
+		<img class="center" src="Images/teeth.png">
+	</div>
+</body>
+
+</html>

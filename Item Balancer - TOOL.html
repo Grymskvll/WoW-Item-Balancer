@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="styles.css">
+	<link href="https://fonts.googleapis.com/css?family=Cutive+Mono|Roboto" rel="stylesheet">
+	<title>Item Balancer - TOOL</title>
+	<link rel="shortcut icon" type="image/png" href="Images/Inv_misc_enggizmos_swissarmy.png"/>
+</head>
+
+<body>
+
+	<div id="poopyBigBoy">
+		<button class="button-standalone" type="button" id="resetButton" onclick="FORM.ResetAll()">
+			<img class="colimg" src="Images/Inv_gizmo_supersappercharge.png">
+			Reset All
+		</button>
+
+		<div class="float-right">
+			<a class="nodec" href="readme.html" target="_blank">
+				<button class="button-standalone" type="button">
+					<img class="colimg" src="Images/Inv_misc_book_02.png">
+					Readme
+					<img class="tabimg" src="Images/icons8-external-link.svg">
+			</button></a>
+			
+			<a class="nodec" href="https://github.com/Grymskvll/WoW-Item-Balancer" target="_blank">
+				<button class="button-standalone" type="button">
+					<img class="colimg" src="Images/GitHub-Mark-120px-plus.png">
+					GitHub project page
+					<img class="tabimg" src="Images/icons8-external-link.svg">
+			</button></a>
+		</div>
+
+		<hr>
+
+		<div class="flex">
+			<div class="min650px border flex1">
+				<div class="colDiv fullwidth">
+					<button type="button" onclick="FORM.ResetItemInfo(true)">Clear</button>
+					<button type="button" class="collapsible" id="iteminfocol">
+						<img class="colimg" src="Images/INV_Misc_Note_04.png">
+						Item Info
+					</button>
+				</div>
+				<form class="content" action="javascript:void(0);" id="infoForm" oninput="FORM.Update(this)">
+					<fieldset id="itemInfo">
+						<legend>Item info</legend>
+						<select id="expansion" class="" oninput="FORM.ResetOptions(3)">
+							<option value="" selected disabled>Select expansion</option>
+						</select>
+						<select id="itemquality" class="storeSel" oninput="FORM.ResetOptions(2)">
+							<option value="" selected disabled>Select quality</option>
+						</select>
+						<select id="itemcategory" class="storeSel" oninput="FORM.ResetOptions(1)">
+							<option value="" selected disabled>Select item category</option>
+						</select>
+						<select id="itemslot" class="storeSel" oninput="FORM.ResetOptions(0)">
+							<option value="" selected disabled>Select slot</option>
+						</select>
+						<select id="itemtype" class="storeSel">
+							<option value="" selected disabled>Select item type</option>
+						</select>
+						<input id="ilvl" type="number" min="0" step="0.001" placeholder="item level">
+					</fieldset>
+
+					<div>
+						<div class="Rtable-row">
+							<label class="Rtable-cell">Total budget</label>
+							<output class="Rtable-cell" type="number" id="totalbudget" >0</output>
+						</div>
+						<div class="Rtable-row">
+							<label class="Rtable-cell">Consumed budget</label>
+							<output class="Rtable-cell" type="number" id="consumedbudget" >0</output>
+						</div>
+						<div class="Rtable-row">
+							<label class="Rtable-cell">Unused budget</label>
+							<output class="Rtable-cell" type="number" id="unusedbudget" >0</output>
+						</div>
+						<div class="Rtable-row">
+							<label class="Rtable-cell">Current ilvl</label>
+							<output class="Rtable-cell" type="number" id="currentilvl" >0</output>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="flex">
+			<div class="min650px border flex1">
+				<div class="colDiv fullwidth">
+					<button type="button" onclick="FORM.ResetStatForm(true)">Clear</button>
+					<button type="button" class="collapsible">
+						<img class="colimg" src="Images\Spell_Nature_Strength.png">
+						Stats
+					</button>
+				</div>
+				<div class="content" id="statsContent" oninput="FORM.Update(this)">
+					<fieldset class="fieldHidden" id="statsField">
+						<div class="Rtable Rtable-4cols" id="statsDiv">
+							<div class="Rtable-head Rtable-4cols">
+								<div class="Rtable-cell flex2">Type</div>
+								<div class="Rtable-cell flex2">Base</div>
+								<div class="Rtable-cell flex1">Extra</div>
+								<div class="Rtable-cell flex2">Budget Mod</div>
+								<div class="Rtable-cell flex2">Result</div>
+							</div>
+
+							<div id="statRowVirtual" class="Rtable-row Rtable-4cols">
+								<div class="Rtable-cell flex2">
+									<button type="button" onclick="FORM.RemoveStatRow(this.parentNode.parentNode)">╳</button>
+									<select class="statSel fullwidth" oninput="FORM.StatSelChanged(event)">
+										<option selected disabled>Select stat</option>
+									</select>
+								</div>
+								<div class="Rtable-cell flex2">
+									<div class="statModeHolder">
+										<div>
+											<label>
+												<input type="radio" class="statModeRadio statInput" value="split" checked>
+												Split
+											</label>
+										</div>
+										<div>
+											<input type="radio" class="statModeRadio statInput" value="function">
+											<select class="statFunction statInput">
+												<option selected disabled>Select stat function</option>
+											</select>
+										</div>
+										<div>
+											<label>
+												<input type="radio" class="statModeRadio statInput" value="manual">
+												Manual
+											</label>
+										</div>
+									</div>
+									<div class="fullwidth">
+										<input class="fullwidth statBaseIn statInput" type="number" placeholder="0">
+									</div>
+								</div>
+								<div class="Rtable-cell flex1">
+									<input class="fullwidth statExtraIn statInput" type="number" placeholder="0">
+								</div>
+
+								<div class="Rtable-cell flex2">
+									<div class="budgetModeHolder">
+										<div>
+											<label>
+												<input type="radio" class="budgetModeRadio statInput" value="default" checked>
+												Default
+											</label>
+										</div>
+										<div>
+											<input type="radio" class="budgetModeRadio statInput" value="function">
+											<select class="budgetFunction statInput">
+												<option selected disabled>Select budget mod function</option>
+											</select>
+										</div>
+										<div>
+											<label>
+												<input type="radio" class="budgetModeRadio statInput" value="manual">
+												Manual
+											</label>
+										</div>
+									</div>
+									<div class="fullwidth">
+										<input class="fullwidth statBudgetIn statInput" type="number" placeholder="0">
+									</div>
+								</div>
+
+								<div class="Rtable-cell flex2 center">
+									<div class="fullwidth">
+										<output class="statFinalOut"></output>
+										<output class="statFinalRounded nowrap font-large"></output>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="Rtable-1cols">
+							<div class="Rtable-foot Rtable-cell flex1"></div>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="flex flex-wrap">
+			<div class="flex2 min650px border">
+				<div class="colDiv fullwidth">
+					<button type="button" onclick="FORM.ResetDPSForm()">Clear</button>
+					<button type="button" class="collapsible">
+						<img class="colimg" src="Images\Ability_SteelMelee.png">
+						Weapon Damage
+					</button>
+				</div>
+				<form action="javascript:void(0);" class="content" id="dpsForm" oninput="FORM.Update(this)">
+					<fieldset class="fieldHidden" id="dpsField">
+						<div class="flex">
+							<fieldset id="dpsModeField" class="flex3">
+								<legend>Goal DPS</legend>
+								<fieldset>
+									<legend>Mode</legend>
+									<div class="flex">
+										<input type="radio" name="dpsMode" value="function" checked>
+										<select id="dpsSel" class="fullwidth">
+											<option value="" selected disabled>Select DPS function</option>
+										</select>
+									</div>
+									<div>
+										<label>
+											<input type="radio" name="dpsMode" value="manual">
+											Manual
+										</label>
+									</div>
+								</fieldset>
+								<input type="number" class="fullwidth" id="dpsOut" placeholder="0.0" step="0.1" disabled>
+							</fieldset>
+		
+							<div id="speedRangeDiv" class="flex3">
+								<fieldset id="speedField" class="flex">
+									<legend>Speed</legend>
+									<input id="speed" class="font-large fullwidth" type="number" min="0" step="0.01" placeholder="0.00">
+								</fieldset>
+		
+								<fieldset id="rangeField" class="flex">
+									<legend>Damage range %</legend>
+									<input id="dpsRangeIn" class="range-fixed" type="range" min="0" max="100" value="50" oninput="dpsRangeOut.value = this.value">
+									<input type="number" id="dpsRangeOut" min="0" max="100" value="50" step="0.1" oninput="dpsRangeIn.value = this.value">
+								</fieldset>
+							</div>
+		
+							<fieldset id="finalDPS" class="flex2">
+								<legend>Result</legend>
+								<fieldset>
+									<legend>Damage per hit</legend>
+									<div id="dph">
+										<output id="damageMin">0</output>
+										<label>–</label>
+										<output id="damageMax">0</output>
+									</div>
+								</fieldset>
+								<fieldset>
+									<legend>Recalc. DPS</legend>
+									<output id="dpsFinal">0</output>
+								</fieldset>
+							</fieldset>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			
+			<div class="flex flex3 flex-wrap flex-basis-auto min650px">
+				<div class="flex1 min450px border">
+					<div class="colDiv fullwidth">
+						<button type="button" onclick="FORM.ResetArmorForm()">Clear</button>
+						<button type="button" class="collapsible">
+							<img class="colimg" src="Images\INV_Chest_Chain.png">
+							Armor
+						</button>
+					</div>
+					<form action="javascript:void(0);" class="content" id="armorForm" oninput="FORM.Update(this)">
+						<fieldset class="fieldHidden" id="armorField">
+							<div class="flex">
+								<fieldset class="flex2">
+									<legend>Goal armor</legend>
+									<fieldset id="armorModeField">
+										<Legend>Mode</Legend>
+										<div class="flex">
+											<input type="radio" name="armorMode" value="function" checked>
+											<select class="fullwidth" id="armorSel">
+												<option value="" selected disabled>Select armor function</option>
+											</select>
+										</div>
+										<div>
+											<label>
+												<input type="radio" name="armorMode" value="manual">
+												Manual
+											</label>
+										</div>
+									</fieldset>
+									<input type="number" class="fullwidth" id="armorOut" placeholder="0" disabled>
+								</fieldset>
+
+								<fieldset class="flex flex1" id="finalArmor">
+									<legend>Result</legend>
+									<fieldset class="flex fullwidth center">
+										<legend>Armor</legend>
+										<output id="armorFinal">0</output>
+									</fieldset>
+								</fieldset>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+				<div class="flex1 min450px border">
+					<div class="colDiv fullwidth">
+						<button type="button" onclick="FORM.ResetBlockValForm()">Clear</button>
+						<button type="button" class="collapsible">
+							<img class="colimg" src="Images\Ability_Defend.png">
+							Block Value
+						</button>
+					</div>
+					<form action="javascript:void(0);" class="content" id="blockValForm" oninput="FORM.Update(this)">
+						<fieldset class="fieldHidden" id="blockValField">
+							<div class="flex">
+								<fieldset class="flex2">
+									<legend>Goal block value</legend>
+									<fieldset id="blackValueModeField">
+										<Legend>Mode</Legend>
+										<div class="flex">
+											<input type="radio" name="blockValMode" value="function" checked>
+											<select id="blockValSel" class="fullwidth">
+												<option value="" selected disabled>Select block value function</option>
+											</select>
+										</div>
+										<div>
+											<label>
+												<input type="radio" name="blockValMode" value="manual">
+												Manual
+											</label>
+										</div>
+									</fieldset>
+									<input type="number" class="fullwidth" id="blockValOut" placeholder="0" disabled>
+								</fieldset>
+
+								<fieldset id="finalBlockValue" class="flex flex1">
+									<legend>Result</legend>
+									<fieldset class="flex fullwidth center">
+										<legend>Block value</legend>
+										<output id="blockValFinal">0</output>
+									</fieldset>
+								</fieldset>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+				<div class="flex1 min450px border">
+					<div class="colDiv fullwidth">
+						<button type="button" onclick="FORM.ResetDurabilityForm()">Clear</button>
+						<button type="button" class="collapsible">
+							<img class="colimg" src="Images\Trade_BlackSmithing.png">
+							Durability
+						</button>
+					</div>
+					<form action="javascript:void(0);" class="content" id="durabilityForm" oninput="FORM.Update(this)">
+						<fieldset class="fieldHidden" id="durabilityField">
+							<div class="flex">
+								<fieldset class="flex2">
+									<legend>Goal durability</legend>
+									<fieldset id="durabilityModeField">
+										<Legend>Mode</Legend>
+										<div class="flex">
+											<input type="radio" name="durabilityMode" value="function" checked>
+											<select id="durabilitySel" class="fullwidth">
+												<option value="" selected disabled>Select durability function</option>
+											</select>
+										</div>
+										<div>
+											<label>
+												<input type="radio" name="durabilityMode" value="manual">
+												Manual
+											</label>
+										</div>
+									</fieldset>
+									<input type="number" class="fullwidth" id="durabilityOut" placeholder="0" disabled>
+								</fieldset>
+
+								<fieldset id="finalDurability" class="flex flex1">
+									<legend>Result</legend>
+									<fieldset class="flex fullwidth center">
+										<legend>Durability</legend>
+										<output id="durabilityFinal">0</output>
+									</fieldset>
+								</fieldset>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script src="Expansions_List.js"></script>
+	<script src="FORM.js"></script>
+	<script src="ITEM.js"></script>
+	<script src="CONF.js"></script>
+	<script src="ilvl.js"></script>
+</body>
+
+</html>
